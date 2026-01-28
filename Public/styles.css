@@ -1,0 +1,84 @@
+@font-face {
+  font-family: 'MoreSugarThin';
+  src: url('fonts/MoreSugar-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'MoreSugarThin', Arial, sans-serif;
+  background: #f0f0f0;
+  padding: 10px;
+  font-size: 28px;
+}
+
+.quiz-container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.question {
+  display: none;
+  margin-bottom: 20px;
+}
+
+.question.active {
+  display: block;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.answers label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: #ce93d8;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  user-select: none;
+}
+
+.answers label:hover {
+  background-color: #b35fc5;
+  transform: translateY(-3px);
+}
+
+.answers input {
+  display: none;
+}
+
+.answers label.selected {
+  background-color: #b35fc5;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#pointsDisplay {
+  margin-top: 20px;
+  text-align: center;
+}
