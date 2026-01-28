@@ -1,4 +1,4 @@
-// Kysymykset ja pisteet (tässä on esimerkkikysymykset, lisää loput halutessasi)
+// Kysymykset ja pisteet (voit lisätä loput 40 kysymystä samalla tavalla)
 const quizData = [
   { question: "How do you approach a challenging task?", type: "radio", options: [
     { text: "Charge in head-first with determination", points: 1 },
@@ -12,16 +12,15 @@ const quizData = [
     { text: "A dynamic and ever-changing atmosphere", points: 3 },
     { text: "An environment where I can work independently", points: 4 }
   ]}
-  // Lisää loput kysymykset samaan tapaan
 ];
 
 export async function handler(event) {
   if (event.httpMethod === "GET") {
-    // Lähetetään frontendille vain kysymysten tekstit ja input-tyyppi
+    // Lähetetään frontendille vain kysymysten tekstit ja tyyppi
     const safeQuizData = quizData.map(q => ({
       question: q.question,
       type: q.type,
-      options: q.options.map(o => ({ text: o.text })) // Piilotetaan pisteet
+      options: q.options.map(o => ({ text: o.text })) // piilotetaan pisteet
     }));
     return {
       statusCode: 200,
@@ -30,9 +29,8 @@ export async function handler(event) {
   }
 
   if (event.httpMethod === "POST") {
-    // Lasketaan pisteet käyttäjän vastauksista
     const body = JSON.parse(event.body);
-    const userAnswers = body.answers; // [{question:0, points:2}, ...]
+    const userAnswers = body.answers; // [{question, points}, ...]
     const pts = {1:0,2:0,3:0,4:0};
 
     userAnswers.forEach(ans => {
