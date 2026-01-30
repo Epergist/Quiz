@@ -195,7 +195,7 @@ const quizData =
     options: [
       { text: "Nod respectfully and keep questing", points: 1 },
       { text: "Stop, bow and return the favour", points: 3 },
-      { text: "Stop, bow and return the favour Inspect them immediately to check their gear", points: 4 },
+      { text: "Inspect them immediately to check their gear", points: 4 },
       { text: "You were too busy to notice and they are long gone by now", points: 2 }
     ]
   },
@@ -423,3 +423,4 @@ Where others see limits, you see endless possibilities.`
     body: "Method Not Allowed"
   };
 };
+
