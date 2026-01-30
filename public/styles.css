@@ -29,7 +29,7 @@ body {
 .quiz-container {
   width: 700px;
   min-height: 800px;
-  background: #fff0f7cc; /* semi-transparent for background image */
+  background: #fff0f7cc; /* semi-transparent */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -41,12 +41,7 @@ body {
   color: #f58cca;
   text-align: center;
 }
-.quiz-container .question p {
-  color: #f58cca;
-  font-size: 24px; /* halutessasi eri koko kuin muu teksti */
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* halutessasi varjo */
-}
-
+.quiz-container .question p { color: #f58cca; font-size: 24px; /* halutessasi eri koko kuin muu teksti */ text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* halutessasi varjo */ }
 /* ----- QUESTIONS ----- */
 .question {
   display: none;
@@ -154,4 +149,23 @@ body {
   margin-top: 20px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   display: none;
+}
+
+/* ----- ROLL CLASS BUTTON ----- */
+#rollClassBtn {
+  margin-top: 20px;
+  width: 200px;
+  height: 50px;
+  background-color: #f7cde6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#rollClassBtn:hover {
+  background-color: #f58cca;
+  transform: translateY(-2px);
 }

@@ -18,11 +18,9 @@ fetch("/.netlify/functions/quiz")
 function updateProgression(index, isJoke = false, isPreResult = false) {
   const progDiv = document.getElementById('progression');
   const progressBar = document.getElementById('progressBar');
-
   if (!progDiv || !progressBar) return;
 
   if (isPreResult) {
-    // Piilota kokonaan pre-result vaiheessa
     progDiv.style.display = 'none';
     progressBar.style.display = 'none';
   } else {
@@ -209,9 +207,21 @@ function submitAnswers(){
     resultDiv.style.display = 'block';
     document.getElementById('resultText').innerHTML = data.result;
 
-    const winnerRaceKey = Object.keys(data.points).find(k => data.points[k] === Math.max(...Object.values(data.points)));
+    const winnerRaceKey = Object.keys(data.points).find(
+      k => data.points[k] === Math.max(...Object.values(data.points))
+    );
 
-    spinClassWheel(winnerRaceKey);
+    const rollBtn = document.getElementById("rollClassBtn");
+    const wheelText = document.getElementById("classWheel");
+    
+    wheelText.style.display = "none";
+    rollBtn.disabled = false;
+
+    rollBtn.onclick = () => {
+      wheelText.style.display = "block";
+      spinClassWheel(winnerRaceKey);
+      rollBtn.disabled = true;
+    };
   });
 }
 
@@ -227,7 +237,6 @@ function spinClassWheel(raceKey) {
   const classes = raceClasses[raceKey];
   let i = 0;
   const wheelText = document.getElementById("classWheel");
-  wheelText.style.display = "block";
 
   const spin = setInterval(() => {
     wheelText.textContent = classes[i % classes.length];
