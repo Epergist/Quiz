@@ -5,10 +5,9 @@
   font-style: normal;
 }
 
-/* ----- PAGE CENTERING ----- */
 html, body {
   width: 100%;
-  height: 75%;
+  height: 100%;
   margin: 0;
 }
 
@@ -25,41 +24,67 @@ body {
   overflow: hidden;
 }
 
-/* ----- QUIZ CONTAINER ----- */
 .quiz-container {
   width: 700px;
   min-height: 800px;
-  background: #fff0f7cc; /* semi-transparent */
+  background: #fff0f7cc;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   box-sizing: border-box;
+  text-align: center;
 }
 
 .quiz-container h1 {
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
   color: #f58cca;
-  text-align: center;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
 }
-.quiz-container .question p { color: #f58cca; font-size: 24px;
-   text-shadow: 1px 1px 3px rgba(0,0,0,0.3);  }
-/* ----- QUESTIONS ----- */
+
+.screen {
+  margin-top: 40px;
+}
+
+.screen p {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #f58cca;
+}
+
+.screen button {
+  width: 240px;
+  height: 60px;
+  margin: 10px;
+  background-color: #f7cde6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 22px;
+  font-family: 'MoreSugarThin', Arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.screen button:hover {
+  background-color: #f58cca;
+  transform: translateY(-2px);
+}
+
+.hidden { display: none; }
+
 .question {
   display: none;
   margin-top: 30px;
 }
 
-.question.active {
-  display: block;
-}
+.question.active { display: block; }
 
 .question p {
-  color: #ffd6ff;
-  font-size: 24px;
-  text-shadow: 3px 3px 3px rgba(0,0,0,0.3);
+  color: #f58cca;
+  font-size: 26px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-/* ----- ANSWERS ----- */
 .answers {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -67,16 +92,7 @@ body {
   margin-top: 20px;
 }
 
-.multiple-info {
-  text-align: center;
-  font-style: italic;
-  margin: 5px 0;
-  font-size: 18px;
-}
-
-.answers input {
-  display: none;
-}
+.answers input { display: none; }
 
 .answers label {
   height: 130px;
@@ -87,22 +103,23 @@ body {
   color: white;
   font-weight: bold;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
   user-select: none;
 }
 
-.answers label:hover {
-  background-color: #f58cca;
-  transform: translateY(-3px);
+.answers label:hover { background-color: #f58cca; transform: translateY(-3px); }
+.answers label.selected { background-color: #f58cca; }
+
+.multiple-info {
+  text-align: center;
+  font-style: italic;
+  margin: 10px 0;
+  font-size: 18px;
+  color: #f58cca;
 }
 
-.answers label.selected {
-  background-color: #f58cca;
-}
-
-/* ----- NAV BUTTONS ----- */
 .quiz-nav {
   display: flex;
   justify-content: space-between;
@@ -116,57 +133,64 @@ body {
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'MoreSugarThin', Arial, sans-serif;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
 }
 
-.quiz-nav button:hover {
-  background-color: #f58cca;
-  transform: translateY(-2px);
+.quiz-nav button:hover { background-color: #f58cca; transform: translateY(-2px); }
+.quiz-nav button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+#progression {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #f58cca;
 }
 
-.quiz-nav button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
+#progressContainer {
+  width: 100%;
+  height: 12px;
+  background: #f7cde6;
+  border-radius: 6px;
+  margin-top: 6px;
+  overflow: hidden;
 }
 
-/* ----- RESULT ----- */
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: #f58cca;
+  transition: width 0.3s;
+}
+
 #result {
   display: none;
   text-align: center;
-  margin-top: 20px;
-  color: black;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-top: 30px;
 }
 
-/* ----- CLASS WHEEL ----- */
 #classWheel {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
-  color: black;
   margin-top: 20px;
+  color: #000;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   display: none;
 }
 
-/* ----- ROLL CLASS BUTTON ----- */
 #rollClassBtn {
-  margin-top: 20px;
-  width: 200px;
-  height: 50px;
+  margin-top: 25px;
+  width: 220px;
+  height: 55px;
   background-color: #f7cde6;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 20px;
+  border-radius: 12px;
+  font-size: 22px;
+  font-family: 'MoreSugarThin', Arial, sans-serif;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
 }
 
-#rollClassBtn:hover {
-  background-color: #f58cca;
-  transform: translateY(-2px);
-}
+#rollClassBtn:hover { background-color: #f58cca; transform: translateY(-2px); }

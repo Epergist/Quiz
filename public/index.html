@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,28 +9,36 @@
 <body>
 
 <div class="quiz-container">
+
   <h1>WoW Alliance Race Quiz</h1>
 
-  <!-- Quiz questions render here -->
+  <!-- START SCREEN -->
+  <div id="startScreen" class="screen">
+    <p>What do you want to do?</p>
+    <button id="startQuizBtn">Take the Quiz</button>
+    <button id="startRollBtn">Roll Class</button>
+  </div>
+
+  <!-- RACE SELECT SCREEN -->
+  <div id="raceSelectScreen" class="screen hidden">
+    <p>Choose a race:</p>
+    <button class="raceBtn" data-race="1">Human</button>
+    <button class="raceBtn" data-race="2">Dwarf</button>
+    <button class="raceBtn" data-race="3">Night Elf</button>
+    <button class="raceBtn" data-race="4">Gnome</button>
+  </div>
+
+  <!-- QUIZ -->
   <div id="quiz"></div>
 
-  <!-- Progress -->
-  <div id="progression">Question 1 / 30</div>
-  <div id="progressContainer">
-    <div id="progressBar"></div>
-  </div>
-
-  <!-- Result -->
-  <div id="result">
-    <h2>Your race is:</h2>
+  <!-- RESULT -->
+  <div id="result" class="hidden">
+    <h2 id="resultTitle">Your race is:</h2>
     <p id="resultText"></p>
-
-    <!-- Class wheel placeholder -->
     <div id="classWheel"></div>
-
-    <!-- Button to roll the class -->
     <button id="rollClassBtn">Roll Your Class</button>
   </div>
+
 </div>
 
 <script src="script.js"></script>

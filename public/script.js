@@ -1,20 +1,67 @@
+const startScreen = document.getElementById('startScreen');
 const quizContainer = document.getElementById('quiz');
+const resultDiv = document.getElementById('result');
+const rollBtn = document.getElementById("rollClassBtn");
+const wheelText = document.getElementById("classWheel");
+const resultTitle = document.getElementById("resultTitle");
+
 let quizData = [];
 let userAnswers = [];
 let current = 0;
 let firstQuestionPrevChoice = null;
 let firstQuestionJokeShown = 0;
 
-// ----- Fetch questions -----
-fetch("/.netlify/functions/quiz")
-  .then(res => res.json())
-  .then(data => {
-    quizData = data;
-    userAnswers = Array(quizData.length).fill(null);
-    renderQuestion(current);
-  });
+const raceClasses = {
+  1: ["Mage", "Paladin", "Priest", "Rogue", "Warlock", "Warrior"], // Human
+  2: ["Hunter", "Paladin", "Priest", "Rogue", "Warrior"], // Dwarf
+  3: ["Druid", "Hunter", "Priest", "Rogue", "Warrior"], // Night Elf
+  4: ["Mage", "Rogue", "Warlock", "Warrior"] // Gnome
+};
 
-// ----- Progress bar -----
+// ----- START SCREEN -----
+document.getElementById('startQuizBtn').addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  quizContainer.style.display = 'block';
+
+  // Show result title for quiz later
+  resultTitle.style.display = 'block';
+
+  fetch("/.netlify/functions/quiz")
+    .then(res => res.json())
+    .then(data => {
+      quizData = data;
+      userAnswers = Array(quizData.length).fill(null);
+      renderQuestion(current);
+    });
+});
+
+// Show race selection when "Roll Class" is clicked
+document.getElementById('startRollBtn').addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  document.getElementById('raceSelectScreen').classList.remove('hidden');
+});
+
+// ----- RACE SELECTION -----
+document.querySelectorAll('.raceBtn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const raceKey = btn.dataset.race;
+    document.getElementById('raceSelectScreen').classList.add('hidden');
+    resultDiv.style.display = 'block';
+
+    // Hide the "Your race is" title for Roll Class
+    resultTitle.style.display = 'none';
+
+    wheelText.style.display = "none";
+    rollBtn.disabled = false;
+    rollBtn.onclick = () => {
+      wheelText.style.display = "block";
+      spinClassWheel(raceKey);
+      rollBtn.disabled = true;
+    };
+  });
+});
+
+// ----- PROGRESS -----
 function updateProgression(index, isJoke = false, isPreResult = false) {
   const progDiv = document.getElementById('progression');
   const progressBar = document.getElementById('progressBar');
@@ -37,7 +84,7 @@ function updateProgression(index, isJoke = false, isPreResult = false) {
   }
 }
 
-// ----- Render question -----
+// ----- RENDER QUESTION -----
 function renderQuestion(index, isJoke = false, isPreResult = false) {
   quizContainer.innerHTML = "";
   updateProgression(index, isJoke, isPreResult);
@@ -51,35 +98,28 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
   p.style.fontWeight = 'bold';
 
   if (isPreResult) {
-    p.innerHTML = `
-      <div style="font-size:28px; margin-bottom:20px;">Drumroll</div>
-      <div style="font-size:96px; margin-top:20px;">
-        <img src="images/DRUMMERS.gif" style="width:124px;height:124px;vertical-align:middle;">
-      </div>
-    `;
-  } 
-  else if (isJoke) {
+    p.innerHTML = `<div style="font-size:28px; margin-bottom:20px;">Drumroll</div>
+                   <div style="font-size:96px; margin-top:20px;">
+                     <img src="images/DRUMMERS.gif" style="width:124px;height:124px;vertical-align:middle;">
+                   </div>`;
+  } else if (isJoke) {
     let jokeText = '-1 point for Night Elf <img src="images/night_elf.png" style="width:64px;height:64px;vertical-align:middle;">';
     if (firstQuestionJokeShown === 2) jokeText = "Nice try! -5 points for Night Elf <img src='images/night_elf.png' style='width:64px;height:64px;vertical-align:middle;'>";
     if (firstQuestionJokeShown === 3) jokeText = "Third time's the charm! -10 points for Night Elf <img src='images/night_elf.png' style='width:64px;height:64px;vertical-align:middle;'>";
     p.innerHTML = jokeText;
-  } 
-  else {
+  } else {
     p.textContent = quizData[index].question;
   }
 
   qDiv.appendChild(p);
 
-  // Multiple info
   if (!isJoke && !isPreResult && quizData[index].type === "multiple") {
     const info = document.createElement('p');
     info.textContent = "Multiple choice";
     info.className = "multiple-info";
-    info.style.textAlign = "center";
     qDiv.appendChild(info);
   }
 
-  // Answers
   if (!isJoke && !isPreResult) {
     const answersDiv = document.createElement('div');
     answersDiv.className = 'answers';
@@ -114,8 +154,7 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
           label.classList.add('selected');
           userAnswers[index] = { question: index, points: parseInt(input.value) };
         });
-      } 
-      else {
+      } else {
         if (!userAnswers[index]) userAnswers[index] = [];
         if (userAnswers[index].some(a => a.points === opt.points)) {
           input.checked = true;
@@ -140,7 +179,6 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
     qDiv.appendChild(answersDiv);
   }
 
-  // Navigation
   const navDiv = document.createElement('div');
   navDiv.className = "quiz-nav";
 
@@ -164,7 +202,6 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
       return;
     }
 
-    // First question joke logic
     if (index === 0) {
       const ansPoints = Array.isArray(ans) ? ans[0]?.points : ans.points;
 
@@ -192,7 +229,7 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
   quizContainer.appendChild(qDiv);
 }
 
-// ----- Submit answers -----
+// ----- SUBMIT ANSWERS -----
 function submitAnswers(){
   fetch("/.netlify/functions/quiz", {
     method: "POST",
@@ -202,18 +239,17 @@ function submitAnswers(){
   .then(res => res.json())
   .then(data => {
     quizContainer.innerHTML = "";
-
-    const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
+
+    // Show result title for quiz
+    resultTitle.style.display = 'block';
+
     document.getElementById('resultText').innerHTML = data.result;
 
     const winnerRaceKey = Object.keys(data.points).find(
       k => data.points[k] === Math.max(...Object.values(data.points))
     );
 
-    const rollBtn = document.getElementById("rollClassBtn");
-    const wheelText = document.getElementById("classWheel");
-    
     wheelText.style.display = "none";
     rollBtn.disabled = false;
 
@@ -225,48 +261,27 @@ function submitAnswers(){
   });
 }
 
-// ----- Class wheel logic -----
-const raceClasses = {
-  1: ["Mage", "Paladin", "Priest", "Rogue", "Warlock", "Warrior"], // Human
-  2: ["Hunter", "Paladin", "Priest", "Rogue", "Warrior"], // Dwarf
-  3: ["Druid", "Hunter", "Priest", "Rogue", "Warrior"], // Night Elf
-  4: ["Mage", "Rogue", "Warlock", "Warrior"] // Gnome
-};
-
+// ----- CLASS WHEEL -----
 function spinClassWheel(raceKey) {
   const classes = raceClasses[raceKey];
-  const wheelText = document.getElementById("classWheel");
-
   let i = 0;
-  let interval = 50;      // start fast
+  let interval = 50;
   let spinCount = 0;
-  const maxSpins = 60;    // total "ticks" before stopping
+  const maxSpins = 60;
 
   function spinStep() {
     wheelText.textContent = classes[i % classes.length];
     i++;
     spinCount++;
 
-    // Gradually slow down
     if (spinCount < maxSpins) {
-      interval += 5; // increase interval to slow down
+      interval += 5;
       setTimeout(spinStep, interval);
     } else {
-      // Stop on random class at the end
       const chosenClass = classes[Math.floor(Math.random() * classes.length)];
       wheelText.textContent = `Your class: ${chosenClass}`;
     }
   }
 
-  spinStep(); // start spinning
-}
-
-// ----- Utility -----
-function shuffleArray(array) {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+  spinStep();
 }
