@@ -235,19 +235,30 @@ const raceClasses = {
 
 function spinClassWheel(raceKey) {
   const classes = raceClasses[raceKey];
-  let i = 0;
   const wheelText = document.getElementById("classWheel");
 
-  const spin = setInterval(() => {
+  let i = 0;
+  let interval = 50;      // start fast
+  let spinCount = 0;
+  const maxSpins = 60;    // total "ticks" before stopping
+
+  function spinStep() {
     wheelText.textContent = classes[i % classes.length];
     i++;
-  }, 100);
+    spinCount++;
 
-  setTimeout(() => {
-    clearInterval(spin);
-    const chosenClass = classes[Math.floor(Math.random() * classes.length)];
-    wheelText.textContent = `Your class: ${chosenClass}`;
-  }, 2000);
+    // Gradually slow down
+    if (spinCount < maxSpins) {
+      interval += 5; // increase interval to slow down
+      setTimeout(spinStep, interval);
+    } else {
+      // Stop on random class at the end
+      const chosenClass = classes[Math.floor(Math.random() * classes.length)];
+      wheelText.textContent = `Your class: ${chosenClass}`;
+    }
+  }
+
+  spinStep(); // start spinning
 }
 
 // ----- Utility -----

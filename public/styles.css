@@ -41,7 +41,8 @@ body {
   color: #f58cca;
   text-align: center;
 }
-.quiz-container .question p { color: #f58cca; font-size: 24px; /* halutessasi eri koko kuin muu teksti */ text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* halutessasi varjo */ }
+.quiz-container .question p { color: #f58cca; font-size: 24px;
+   text-shadow: 1px 1px 3px rgba(0,0,0,0.3);  }
 /* ----- QUESTIONS ----- */
 .question {
   display: none;
