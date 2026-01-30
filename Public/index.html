@@ -11,12 +11,19 @@
 <div class="quiz-container">
   <h1>WoW Alliance Race Quiz</h1>
 
-  <!-- Kysymykset lisätään dynaamisesti JS:llä -->
+  <!-- Quiz questions render here -->
+  <div id="quiz"></div>
 
-  <div id="result" style="display:none;">
+  <div id="progression" style="margin-bottom: 15px; font-size: 20px; font-weight: bold;">
+    Question 1 / 30
+  </div>
+
+  <!-- Result -->
+  <div id="result">
     <h2>Your race is:</h2>
     <p id="resultText"></p>
   </div>
+
 </div>
 
 <script src="script.js"></script>

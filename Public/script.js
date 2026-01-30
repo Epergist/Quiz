@@ -1,26 +1,9 @@
-const quizContainer = document.querySelector('.quiz-container');
+const quizContainer = document.getElementById('quiz');
 let quizData = [];
 let userAnswers = [];
 let current = 0;
 
-// Alkuperäinen taulukko backend-pisteiden hakua varten
-const quizDataOriginal = [
-  { question: "How do you approach a challenging task?", type: "radio", options: [
-    { text: "Charge in head-first with determination", points: 1 },
-    { text: "Take time to understand and plan carefully", points: 2 },
-    { text: "Look for creative and unconventional solutions", points: 3 },
-    { text: "Persistently work through obstacles", points: 4 }
-  ]},
-  { question: "Which environment do you thrive in the most?", type: "radio", options: [
-    { text: "A competitive and fast-paced setting", points: 1 },
-    { text: "A peaceful and natural environment", points: 2 },
-    { text: "A dynamic and ever-changing atmosphere", points: 3 },
-    { text: "An environment where I can work independently", points: 4 }
-  ]}
-  // Lisää loput kysymykset samaan tapaan
-];
-
-// Hae kysymykset backendistä
+// Fetch questions
 fetch("/.netlify/functions/quiz")
   .then(res => res.json())
   .then(data => {
@@ -29,69 +12,254 @@ fetch("/.netlify/functions/quiz")
     renderQuestion(current);
   });
 
-function renderQuestion(index){
-  document.querySelectorAll('.question').forEach(q => q.remove());
+function updateProgression(index, isJoke) {
+  const progDiv = document.getElementById('progression');
+  if (!progDiv) return;
 
-  const q = quizData[index];
+  progDiv.textContent = isJoke
+    ? `Question 1 / ${quizData.length}`
+    : `Question ${index + 1} / ${quizData.length}`;
+
+  const progressBar = document.getElementById('progressBar');
+  if (!progressBar) return;
+
+  progressBar.style.width = isJoke
+    ? `${(1 / quizData.length) * 100}%`
+    : `${((index + 1) / quizData.length) * 100}%`;
+}
+
+let firstQuestionPrevChoice = null;
+let firstQuestionJokeShown = 0;
+
+function renderQuestion(index, isJoke = false, isPreResult = false) {
+  quizContainer.innerHTML = "";
+
+  updateProgression(index, isJoke || isPreResult);
+
   const qDiv = document.createElement('div');
-  qDiv.className = 'question';
+  qDiv.className = 'question active';
 
   const p = document.createElement('p');
-  p.textContent = q.question;
+  p.style.textAlign = 'center';
+  p.style.fontSize = '28px';
+  p.style.fontWeight = 'bold';
+
+  // ======================
+  // TEXT / JOKE / PRE-RESULT
+  // ======================
+
+  if (isPreResult) {
+    p.innerHTML = `
+  <div style="font-size:28px; margin-bottom:20px;">
+    Drumroll
+  </div>
+  <div style="font-size:96px; margin-top:20px;">
+    <img src="images/DRUMMERS.gif" style="width:124px;height:124px;vertical-align:middle;">
+  </div>
+`;
+  } 
+  else if (isJoke) {
+    let jokeText =
+      '-1 point for Night Elf <img src="images/night_elf.png" style="width:64px;height:64px;vertical-align:middle;">';
+
+    if (firstQuestionJokeShown === 2) {
+      jokeText =
+        "Nice try! -5 points for Night Elf <img src='images/night_elf.png' style='width:64px;height:64px;vertical-align:middle;'>";
+    }
+
+    if (firstQuestionJokeShown === 3) {
+      jokeText =
+        "Third time's the charm! -10 points for Night Elf <img src='images/night_elf.png' style='width:64px;height:64px;vertical-align:middle;'>";
+    }
+
+    p.innerHTML = jokeText;
+  } 
+  else {
+    p.textContent = quizData[index].question;
+  }
+
   qDiv.appendChild(p);
 
-  q.options.forEach((opt,i)=>{
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = q.type;
-    input.name = 'q'+index;
-    input.value = i;
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(' ' + opt.text));
-    qDiv.appendChild(label);
+  // ======================
+  // MULTIPLE INFO
+  // ======================
 
-    input.addEventListener('change', e=>{
-      userAnswers[index] = {question:index, optionIndex: parseInt(e.target.value)};
+  if (!isJoke && !isPreResult && quizData[index].type === "multiple") {
+    const info = document.createElement('p');
+    info.textContent = "Multiple choice";
+    info.className = "multiple-info";
+    info.style.textAlign = "center";
+    qDiv.appendChild(info);
+  }
+
+  // ======================
+  // ANSWERS
+  // ======================
+
+  if (!isJoke && !isPreResult) {
+    const answersDiv = document.createElement('div');
+    answersDiv.className = 'answers';
+    const q = quizData[index];
+
+    q.options.forEach(opt => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+
+      input.type = q.type === "multiple" ? "checkbox" : "radio";
+      input.value = opt.points;
+      input.dataset.id = opt.id;
+
+      if (opt.image) {
+        const img = document.createElement('img');
+        img.src = opt.image;
+        img.alt = opt.text;
+        img.style.width = "50px";
+        img.style.height = "50px";
+        img.style.marginRight = "10px";
+        label.appendChild(img);
+      }
+
+      if (q.type === "radio") {
+        input.name = 'q' + index;
+
+        if (userAnswers[index]?.points === opt.points) {
+          input.checked = true;
+          label.classList.add('selected');
+        }
+
+        input.addEventListener('change', () => {
+          answersDiv.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+          label.classList.add('selected');
+          userAnswers[index] = { question: index, points: parseInt(input.value) };
+        });
+      } 
+      else {
+        if (!userAnswers[index]) userAnswers[index] = [];
+
+        if (userAnswers[index].some(a => a.points === opt.points)) {
+          input.checked = true;
+          label.classList.add('selected');
+        }
+
+        input.addEventListener('change', () => {
+          if (input.checked) {
+            label.classList.add('selected');
+            userAnswers[index].push({ question: index, points: parseInt(input.value) });
+          } else {
+            label.classList.remove('selected');
+            userAnswers[index] =
+              userAnswers[index].filter(a => a.points !== parseInt(input.value));
+          }
+        });
+      }
+
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt.text));
+      answersDiv.appendChild(label);
     });
+
+    qDiv.appendChild(answersDiv);
+  }
+
+  // ======================
+  // NAV
+  // ======================
+
+  const navDiv = document.createElement('div');
+  navDiv.className = "quiz-nav";
+
+  const backBtn = document.createElement('button');
+  backBtn.textContent = "Back";
+  backBtn.disabled = index === 0 && !isJoke && !isPreResult;
+  backBtn.addEventListener('click', () => {
+    if (isJoke || isPreResult) {
+      renderQuestion(index);
+    } else {
+      current--;
+      renderQuestion(current);
+    }
   });
 
-  const btn = document.createElement('button');
-  btn.textContent = index === quizData.length-1 ? "Näytä tulos" : "Next";
-  btn.addEventListener('click', ()=>{
-    if(userAnswers[index] === null){
-      alert("Valitse vaihtoehto!");
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = isPreResult
+    ? "Show results"
+    : "Next";
+
+  nextBtn.addEventListener('click', () => {
+
+    // PRE RESULT → SUBMIT
+    if (isPreResult) {
+      submitAnswers();
       return;
     }
-    if(current < quizData.length-1){
+
+    const ans = userAnswers[index];
+    if (!ans || (Array.isArray(ans) && ans.length === 0)) {
+      alert("You need to select an answer");
+      return;
+    }
+
+    // FIRST QUESTION JOKES
+    if (index === 0) {
+      const ansPoints = Array.isArray(ans) ? ans[0]?.points : ans.points;
+
+      if (ansPoints === 7 && firstQuestionJokeShown === 0) {
+        firstQuestionJokeShown = 1;
+        firstQuestionPrevChoice = 7;
+        renderQuestion(index, true);
+        return;
+      }
+
+      if (firstQuestionJokeShown === 1 && firstQuestionPrevChoice === 7 && ansPoints !== 7) {
+        firstQuestionJokeShown = 2;
+        firstQuestionPrevChoice = ansPoints;
+        renderQuestion(index, true);
+        return;
+      }
+
+      if (firstQuestionJokeShown === 2 && ansPoints === 7) {
+        firstQuestionJokeShown = 3;
+        firstQuestionPrevChoice = 7;
+        renderQuestion(index, true);
+        return;
+      }
+
+      firstQuestionPrevChoice = ansPoints;
+    }
+
+    if (current < quizData.length - 1) {
       current++;
       renderQuestion(current);
     } else {
-      submitAnswers();
+      renderQuestion(index, false, true);
     }
   });
-  qDiv.appendChild(btn);
+
+  navDiv.appendChild(backBtn);
+  navDiv.appendChild(nextBtn);
+  qDiv.appendChild(navDiv);
 
   quizContainer.appendChild(qDiv);
 }
 
-function submitAnswers(){
-  // Muunnetaan frontendin optionIndex backendin pisteiksi
-  const answersForBackend = userAnswers.map(ans => {
-    const originalQ = quizDataOriginal[ans.question];
-    return { question: ans.question, points: originalQ.options[ans.optionIndex].points };
-  });
+// ======================
+// SUBMIT
+// ======================
 
+function submitAnswers(){
   fetch("/.netlify/functions/quiz", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({answers: answersForBackend})
+    body: JSON.stringify({ answers: userAnswers })
   })
-  .then(res=>res.json())
-  .then(data=>{
-    document.querySelectorAll('.question').forEach(q=>q.remove());
+  .then(res => res.json())
+  .then(data => {
+    quizContainer.innerHTML = "";
+
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
-    document.getElementById('resultText').textContent = data.result;
-    console.log("Points breakdown:", data.points);
+    document.getElementById('resultText').innerHTML = data.result;
+
   });
 }
+
