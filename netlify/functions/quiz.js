@@ -99,6 +99,26 @@ const quizData =
       { text: "Ensuring tasks are completed efficiently", points: 2 }
     ]
   },
+    {
+    question: "You notice your DPS is slightly lower than usual",
+    type: "radio",
+    options: [
+      { text: "Stay calm and make a mental plan to improve next fight", points: 1 },
+      { text: "Its fine, numbers are hard anyways ", points: 3 },
+      { text: "Reflect quietly on your technique and timing ", points: 4 },
+      { text: "Start checking buffs, talents, gear, and combat logs", points: 2 }
+    ]
+  },
+      {
+    question: "Sneak peek Random person buffs you in the open world, how do you react? ",
+    type: "radio",
+    options: [
+      { text: "Nod respectfully and keep questing", points: 1 },
+      { text: "Stop, bow and return the favour", points: 3 },
+      { text: "Stop, bow and return the favour Inspect them immediately to check their gear", points: 4 },
+      { text: "You were too busy to notice and they are long gone by now", points: 2 }
+    ]
+  },
   {
     question: "How do you handle conflicts with others?",
     type: "radio",
