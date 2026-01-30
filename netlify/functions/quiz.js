@@ -99,26 +99,6 @@ const quizData =
       { text: "Ensuring tasks are completed efficiently", points: 2 }
     ]
   },
-    {
-    question: "You notice your DPS is slightly lower than usual",
-    type: "radio",
-    options: [
-      { text: "Stay calm and make a mental plan to improve next fight", points: 1 },
-      { text: "Its fine, numbers are hard anyways ", points: 3 },
-      { text: "Reflect quietly on your technique and timing ", points: 4 },
-      { text: "Start checking buffs, talents, gear, and combat logs", points: 2 }
-    ]
-  },
-      {
-    question: "Sneak peek Random person buffs you in the open world, how do you react? ",
-    type: "radio",
-    options: [
-      { text: "Nod respectfully and keep questing", points: 1 },
-      { text: "Stop, bow and return the favour", points: 3 },
-      { text: "Stop, bow and return the favour Inspect them immediately to check their gear", points: 4 },
-      { text: "You were too busy to notice and they are long gone by now", points: 2 }
-    ]
-  },
   {
     question: "How do you handle conflicts with others?",
     type: "radio",
@@ -160,113 +140,133 @@ const quizData =
   ]
 },
 {
-  question: "Your group asks if anyone knows this fight.",
+  question: "Your group asks if anyone knows this fight",
   type: "radio",
   options: [
-    { text: "Say yes, even if it’s been a while.", points: 1 },
-    { text: "Give a short, clear explanation to keep things moving.", points: 1 },
-    { text: "Confidently explain a strategy you just invented.", points: 4 },
-    { text: "Say “yeah”, then blame the tank when things go wrong.", points: 4 }
+    { text: "Say yes, even if it’s been a while", points: 1 },
+    { text: "Give a short, clear explanation to keep things moving", points: 1 },
+    { text: "Confidently explain a strategy you just invented", points: 4 },
+    { text: "Say “yeah”, then blame the tank when things go wrong", points: 4 }
   ]
 },
 {
-  question: "You’re traveling through a familiar zone.",
+  question: "You’re traveling through a familiar zone",
   type: "radio",
   options: [
-    { text: "Appreciate how solid and dependable it feels.", points: 2 },
-    { text: "Remember past adventures that happened here.", points: 2 },
-    { text: "Feel oddly calm, even if nothing’s happening.", points: 3 },
-    { text: "Slow down without really meaning to.", points: 3 }
+    { text: "Appreciate how solid and dependable it feels", points: 2 },
+    { text: "Remember past adventures that happened here", points: 2 },
+    { text: "Feel oddly calm, even if nothing’s happening", points: 3 },
+    { text: "Slow down without really meaning to", points: 3 }
   ]
 },
 {
   question: "What’s your ideal weapon?",
   type: "radio",
   options: [
-    { text: "A well-crafted hammer passed down through generations.", points: 2 },
-    { text: "A gun that’s reliable, loud, and built to last forever.", points: 2 },
-    { text: "A compact device with too many buttons and unknown side effects.", points: 4 },
-    { text: "Something experimental, if it explodes, it's just more data.", points: 4 }
+    { text: "A well-crafted hammer passed down through generations", points: 2 },
+    { text: "A gun that’s reliable, loud, and built to last forever", points: 2 },
+    { text: "A compact device with too many buttons and unknown side effects", points: 4 },
+    { text: "Something experimental, if it explodes, it's just more data", points: 4 }
   ]
 },
 {
-  question: "Your raid wipes at 5%. What’s your reaction?",
+  question: "Your raid wipes at 5% What’s your reaction?",
   type: "radio",
   options: [
-    { text: "Sit quietly and replay everything mentally.", points: 3 },
-    { text: "Say nothing, but remember exactly who messed up.", points: 3 },
-    { text: "Obviously it was the tank’s fault.", points: 4 },
-    { text: "“Okay but hear me out, what if we try THIS.”", points: 4 }
+    { text: "Sit quietly and replay everything mentally", points: 3 },
+    { text: "Say nothing, but remember exactly who messed up", points: 3 },
+    { text: "Obviously it was the tank’s fault", points: 4 },
+    { text: "“Okay but hear me out, what if we try THIS”", points: 4 }
   ]
 },
+    {
+    question: "You notice your DPS is slightly lower than usual",
+    type: "radio",
+    options: [
+      { text: "Stay calm and make a mental plan to improve next fight", points: 1 },
+      { text: "Its fine, numbers are hard anyways ", points: 3 },
+      { text: "Reflect quietly on your technique and timing ", points: 4 },
+      { text: "Start checking buffs, talents, gear, and combat logs", points: 2 }
+    ]
+  },
+      {
+    question: "Random person buffs you in the open world, how do you react? ",
+    type: "radio",
+    options: [
+      { text: "Nod respectfully and keep questing", points: 1 },
+      { text: "Stop, bow and return the favour", points: 3 },
+      { text: "Stop, bow and return the favour Inspect them immediately to check their gear", points: 4 },
+      { text: "You were too busy to notice and they are long gone by now", points: 2 }
+    ]
+  },
 {
-  question: "You accidentally pull extra mobs in a dungeon.",
+  question: "You accidentally pull extra mobs in a dungeon",
   type: "radio",
   options: [
-    { text: "Apologize and try to recover.", points: 1 },
-    { text: "Take responsibility and commit fully.", points: 1 },
-    { text: "Save your friend and leave others to their own devices.", points: 2 },
+    { text: "Apologize and try to recover", points: 1 },
+    { text: "Take responsibility and commit fully", points: 1 },
+    { text: "Save your friend and leave others to their own devices", points: 2 },
     { text: "/cast Vanish", points: 3 }
   ]
 },
 {
-  question: "You fall into lava in a dungeon.",
+  question: "You fall into lava in a dungeon",
   type: "radio",
   options: [
-    { text: "Frantically spam every button hoping something works.", points: 2 },
-    { text: "You accept your fate.", points: 2 },
-    { text: "Try to distract the lava mid-fall (or anyone watching).", points: 3 },
-    { text: "You lava jump because of course you have the addon installed.", points: 4 }
+    { text: "Frantically spam every button hoping something works", points: 2 },
+    { text: "You accept your fate", points: 2 },
+    { text: "Try to distract the lava mid-fall (or anyone watching)", points: 3 },
+    { text: "You lava jump because of course you have the addon installed", points: 4 }
   ]
 },
 {
-  question: "You’re trusted with something powerful and dangerous.",
+  question: "You’re trusted with something powerful and dangerous",
   type: "radio",
   options: [
-    { text: "Somehow turn it into a debate over taxes and city defenses.", points: 1 },
-    { text: "Guard it closely.", points: 3 },
-    { text: "Trust ancient precedent over your own judgment.", points: 3 },
-    { text: "Improve it until it’s only mostly dangerous.", points: 4 }
+    { text: "Somehow turn it into a debate over taxes and city defenses", points: 1 },
+    { text: "Guard it closely", points: 3 },
+    { text: "Trust ancient precedent over your own judgment", points: 3 },
+    { text: "Improve it until it’s only mostly dangerous", points: 4 }
   ]
 },
 {
-  question: "You see someone wearing cool looking gear.",
+  question: "You see someone wearing cool looking gear",
   type: "radio",
   options: [
-    { text: "Go see how much it costs on the auction house.", points: 1 },
-    { text: "Inspect them immediately.", points: 2 },
-    { text: "Just stand there in awe.", points: 3 },
-    { text: "Might look cool but it’s not optimal DPS.", points: 4 }
+    { text: "Go see how much it costs on the auction house", points: 1 },
+    { text: "Inspect them immediately", points: 2 },
+    { text: "Just stand there in awe", points: 3 },
+    { text: "Might look cool but it’s not optimal DPS", points: 4 }
   ]
 },
 {
   question: "How do you feel about escort quests?",
   type: "radio",
   options: [
-    { text: "They’re frustrating, but someone has to do them.", points: 1 },
-    { text: "Protect the NPC like a personal oath.", points: 2 },
-    { text: "Patient at first, then silently furious.", points: 3 },
-    { text: "Speedrun and hope the NPC lives.", points: 4 }
+    { text: "They’re frustrating, but someone has to do them", points: 1 },
+    { text: "Protect the NPC like a personal oath", points: 2 },
+    { text: "Patient at first, then silently furious", points: 3 },
+    { text: "Speedrun and hope the NPC lives", points: 4 }
   ]
 },
 {
-  question: "Someone asks for help with a long, annoying quest.",
+  question: "Someone asks for help with a long, annoying quest",
   type: "radio",
   options: [
-    { text: "Agree, progress is easier together.", points: 1 },
-    { text: "For some gold or a pint later.", points: 2 },
-    { text: "Help quietly without expectations.", points: 3 },
-    { text: "Help, but optimise the heck out of it.", points: 4 }
+    { text: "Agree, progress is easier together", points: 1 },
+    { text: "For some gold or a pint later", points: 2 },
+    { text: "Help quietly without expectations", points: 3 },
+    { text: "Help, but optimise the heck out of it", points: 4 }
   ]
 },
 {
-  question: "You see someone clearly struggling with a mechanic.",
+  question: "You see someone clearly struggling with a mechanic",
   type: "radio",
   options: [
-    { text: "Try to explain it in a helpful way.", points: 1 },
-    { text: "Give them space to figure it out.", points: 2 },
-    { text: "Adjust your own play to cover for it.", points: 3 },
-    { text: "Whisper them a tip mid-fight.", points: 4 }
+    { text: "Try to explain it in a helpful way", points: 1 },
+    { text: "Give them space to figure it out", points: 2 },
+    { text: "Adjust your own play to cover for it", points: 3 },
+    { text: "Whisper them a tip mid-fight", points: 4 }
   ]
 },
   {
@@ -281,63 +281,63 @@ const quizData =
   },
 
 {
-  question: "A quest chain sends you back to the same zone yet again.",
+  question: "A quest chain sends you back to the same zone yet again",
     type: "multiple",
   options: [
-    { text: "Optimise the route and move on.", points: 1 },
-    { text: "Complain about it, but do it anyway.", points: 2 },
-    { text: "Wonder why this place keeps calling to you.", points: 3 },
-    { text: "Test something new while you are there.", points: 4 }
+    { text: "Optimise the route and move on", points: 1 },
+    { text: "Complain about it, but do it anyway", points: 2 },
+    { text: "Wonder why this place keeps calling to you", points: 3 },
+    { text: "Test something new while you are there", points: 4 }
   ]
 },
 {
-  question: "Your gear breaks mid-dungeon. What is your mindset?",
+  question: "Your gear breaks mid-dungeon, what is your mindset?",
     type: "multiple",
   options: [
-    { text: "Annoying but manageable, we’ll adapt.", points: 1 },
-    { text: "That’s what repair money is for.", points: 2 },
-    { text: "I should have foreseen this.", points: 3 },
-    { text: "Durability is just a number.", points: 4 }
+    { text: "Annoying but manageable, we’ll adapt", points: 1 },
+    { text: "That’s what repair money is for", points: 2 },
+    { text: "I should have foreseen this", points: 3 },
+    { text: "Durability is just a number", points: 4 }
   ]
 },
 {
-  question: "You’re exploring a zone off the main path.",
+  question: "You’re exploring a zone off the main path",
     type: "multiple",
   options: [
-    { text: "Look for signs of future importance.", points: 1 },
-    { text: "Appreciate the craftsmanship and history.", points: 2 },
-    { text: "Move carefully, this place has a special presence.", points: 3 },
-    { text: "Interact with absolutely everything.", points: 4 }
+    { text: "Look for signs of future importance", points: 1 },
+    { text: "Appreciate the craftsmanship and history", points: 2 },
+    { text: "Move carefully, this place has a special presence", points: 3 },
+    { text: "Interact with absolutely everything", points: 4 }
   ]
 },
 {
-  question: "You’re waiting on a late group member.",
+  question: "You’re waiting on a late group member",
     type: "multiple",
   options: [
-    { text: "Keep everyone together and ready.", points: 1 },
-    { text: "Crack jokes and pass the time.", points: 2 },
-    { text: "Wander nearby, but stay close enough to jump in.", points: 3 },
-    { text: "Peggle.", points: 4 }
+    { text: "Keep everyone together and ready", points: 1 },
+    { text: "Crack jokes and pass the time", points: 2 },
+    { text: "Wander nearby, but stay close enough to jump in", points: 3 },
+    { text: "Peggle", points: 4 }
   ]
 },
 {
   question: "At the end of a long play session, you feel…",
     type: "multiple",
   options: [
-    { text: "Satisfied that progress was made.", points: 1 },
-    { text: "Content, another solid night in the books.", points: 2 },
-    { text: "Reflective, thinking about what it all meant.", points: 3 },
-    { text: "Excited about what you’ll try next time.", points: 4 }
+    { text: "Satisfied that progress was made", points: 1 },
+    { text: "Content, another solid night in the books", points: 2 },
+    { text: "Reflective, thinking about what it all meant", points: 3 },
+    { text: "Excited about what you’ll try next time", points: 4 }
   ]
 },
 {
-  question: "You’re on a long flight path. How do you spend your time?",
+  question: "You’re on a long flight path How do you spend your time?",
     type: "multiple",
   options: [
-    { text: "Checking quests and planning your next stop.", points: 1 },
-    { text: "Chatting or just vibing while you wait.", points: 2 },
-    { text: "Watching the water and the horizon.", points: 3 },
-    { text: "Peggle.", points: 4 }
+    { text: "Checking quests and planning your next stop", points: 1 },
+    { text: "Chatting or just vibing while you wait", points: 2 },
+    { text: "Watching the water and the horizon", points: 3 },
+    { text: "Peggle", points: 4 }
   ]
 }
 
