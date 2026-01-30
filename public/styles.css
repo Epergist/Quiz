@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'MoreSugarThin';
+  src: url('fonts/MoreSugar-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ----- PAGE CENTERING ----- */
+html, body {
+  width: 100%;
+  height: 75%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px; /* adjust */
+  background: #fff0f7;
+  font-family: 'MoreSugarThin', Arial, sans-serif;
+  font-size: 28px;
+  overflow: hidden;
+}
+
+/* ----- QUIZ CONTAINER ----- */
+.quiz-container {
+  width: 700px;
+  height: 800px;
+  background: #fff0f7;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}
+
+/* ----- QUESTIONS ----- */
+.question {
+  display: none;
+  margin-top: 30px;
+
+}
+
+
+
+.question.active {
+  display: block;
+}
+
+/* ----- ANSWERS ----- */
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+.multiple-info {
+  text-align: center;
+  font-style: italic;
+  margin: 5px 0;  /* ei työntäisi liikaa */
+  font-size: 18px;
+}
+
+
+.answers input {
+  display: none;
+}
+
+.answers label {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ce93d8;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  user-select: none;
+  height: 130px; /* try 120–150px */
+}
+
+.answers label:hover {
+  background-color: #b35fc5;
+  transform: translateY(-3px);
+}
+
+.answers label.selected {
+  background-color: #b35fc5;
+}
+
+/* ----- NAV BUTTONS ----- */
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.quiz-nav button {
+  width: 160px;
+  height: 55px;
+  background-color: #ce93d8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-family: 'MoreSugarThin', Arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.quiz-nav button:hover {
+  background-color: #b35fc5;
+  transform: translateY(-2px);
+}
+
+.quiz-nav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ----- RESULT ----- */
+#result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+}
