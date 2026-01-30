@@ -143,7 +143,7 @@ const quizData =
   question: "Your group asks if anyone knows this fight",
   type: "radio",
   options: [
-    { text: "Say yes, even if it’s been a while", points: 1 },
+    { text: "    { text: "Basically yeah", points: 1 },", points: 1 },
     { text: "Give a short, clear explanation to keep things moving", points: 1 },
     { text: "Confidently explain a strategy you just invented", points: 4 },
     { text: "Say “yeah”, then blame the tank when things go wrong", points: 4 }
@@ -422,4 +422,5 @@ Where others see limits, you see endless possibilities.`
     statusCode: 405,
     body: "Method Not Allowed"
   };
+
 };
