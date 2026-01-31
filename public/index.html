@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WoW Alliance Race Quiz</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Alliance Race Quiz</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -26,18 +26,27 @@
     <button class="raceBtn" data-race="2">Dwarf</button>
     <button class="raceBtn" data-race="3">Night Elf</button>
     <button class="raceBtn" data-race="4">Gnome</button>
+    <button id="rollRaceBtn">Random</button>
   </div>
 
   <!-- QUIZ -->
   <div id="quiz"></div>
 
-  <!-- RESULT -->
-  <div id="result" class="hidden">
-    <h2 id="resultTitle">Your race is:</h2>
-    <p id="resultText"></p>
-    <div id="classWheel"></div>
-    <button id="rollClassBtn">Roll Your Class</button>
+  <!-- RESULT / ROLL CLASS -->
+<div id="result" class="hidden">
+  <h2 id="resultTitle">Your race is:</h2>
+  <p id="resultText"></p>
+  <div id="raceLabel"></div>
+  <div id="classWheel"></div>
+
+  <!-- BUTTONS WRAPPER -->
+  <div id="resultButtons">
+    <button id="rollClassBtn" class="main-btn">Roll Your Class</button>
+    <button id="backToStartBtn" class="main-btn">Back to start screen</button>
   </div>
+</div>
+
+
 
 </div>
 

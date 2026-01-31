@@ -4,26 +4,42 @@ const resultDiv = document.getElementById('result');
 const rollBtn = document.getElementById("rollClassBtn");
 const wheelText = document.getElementById("classWheel");
 const resultTitle = document.getElementById("resultTitle");
+const classImages = {
+  "Mage": "images/mage.png",
+  "Paladin": "images/paladin.png",
+  "Priest": "images/priest.png",
+  "Rogue": "images/rogue.png",
+  "Warlock": "images/warlock.png",
+  "Warrior": "images/warrior.png",
+  "Hunter": "images/hunter.png",
+  "Druid": "images/druid.png"
+};
+
+const raceNames = {
+  1: "Human",
+  2: "Dwarf",
+  3: "Night Elf",
+  4: "Gnome"
+};
 
 let quizData = [];
 let userAnswers = [];
 let current = 0;
 let firstQuestionPrevChoice = null;
 let firstQuestionJokeShown = 0;
+let hasRolledClass = false;
 
 const raceClasses = {
-  1: ["Mage", "Paladin", "Priest", "Rogue", "Warlock", "Warrior"], // Human
-  2: ["Hunter", "Paladin", "Priest", "Rogue", "Warrior"], // Dwarf
-  3: ["Druid", "Hunter", "Priest", "Rogue", "Warrior"], // Night Elf
-  4: ["Mage", "Rogue", "Warlock", "Warrior"] // Gnome
+  1: ["Mage", "Paladin", "Priest", "Rogue", "Warlock", "Warrior"],
+  2: ["Hunter", "Paladin", "Priest", "Rogue", "Warrior"],
+  3: ["Druid", "Hunter", "Priest", "Rogue", "Warrior"],
+  4: ["Mage", "Rogue", "Warlock", "Warrior"]
 };
 
 // ----- START SCREEN -----
 document.getElementById('startQuizBtn').addEventListener('click', () => {
   startScreen.style.display = 'none';
   quizContainer.style.display = 'block';
-
-  // Show result title for quiz later
   resultTitle.style.display = 'block';
 
   fetch("/.netlify/functions/quiz")
@@ -47,19 +63,39 @@ document.querySelectorAll('.raceBtn').forEach(btn => {
     const raceKey = btn.dataset.race;
     document.getElementById('raceSelectScreen').classList.add('hidden');
     resultDiv.style.display = 'block';
+    raceLabel.textContent = `Rolling class for: ${raceNames[raceKey]}`;
+raceLabel.style.display = "block";
 
-    // Hide the "Your race is" title for Roll Class
+    
+
     resultTitle.style.display = 'none';
-
     wheelText.style.display = "none";
+
+    rollBtn.textContent = "Roll your class";
     rollBtn.disabled = false;
+    hasRolledClass = false;
+
     rollBtn.onclick = () => {
       wheelText.style.display = "block";
-      spinClassWheel(raceKey);
       rollBtn.disabled = true;
+
+      spinClassWheel(raceKey, () => {
+        hasRolledClass = true;
+        rollBtn.textContent = "Reroll your class";
+        rollBtn.disabled = false;
+      });
     };
   });
 });
+document.getElementById('rollRaceBtn').addEventListener('click', () => {
+  const raceButtons = Array.from(document.querySelectorAll('.raceBtn'));
+  if (raceButtons.length === 0) return;
+
+
+  const randomBtn = raceButtons[Math.floor(Math.random() * raceButtons.length)];
+  randomBtn.click();
+});
+
 
 // ----- PROGRESS -----
 function updateProgression(index, isJoke = false, isPreResult = false) {
@@ -225,7 +261,6 @@ function renderQuestion(index, isJoke = false, isPreResult = false) {
   navDiv.appendChild(backBtn);
   navDiv.appendChild(nextBtn);
   qDiv.appendChild(navDiv);
-
   quizContainer.appendChild(qDiv);
 }
 
@@ -240,29 +275,66 @@ function submitAnswers(){
   .then(data => {
     quizContainer.innerHTML = "";
     resultDiv.style.display = 'block';
-
-    // Show result title for quiz
     resultTitle.style.display = 'block';
 
     document.getElementById('resultText').innerHTML = data.result;
 
-    const winnerRaceKey = Object.keys(data.points).find(
-      k => data.points[k] === Math.max(...Object.values(data.points))
-    );
+const winnerRaceKey = Object.keys(data.points).find(
+  k => data.points[k] === Math.max(...Object.values(data.points))
+);
 
-    wheelText.style.display = "none";
+// After quiz ends
+raceLabel.style.display = "none";
+rollBtn.textContent = "Roll your class";
+rollBtn.disabled = false;
+
+rollBtn.onclick = () => {
+  wheelText.style.display = "block";
+  rollBtn.disabled = true;
+
+  spinClassWheel(winnerRaceKey, () => {
+    hasRolledClass = true;
+    rollBtn.textContent = "Reroll your class";
     rollBtn.disabled = false;
+  });
+};
 
-    rollBtn.onclick = () => {
-      wheelText.style.display = "block";
-      spinClassWheel(winnerRaceKey);
-      rollBtn.disabled = true;
-    };
+
   });
 }
+document.getElementById("backToStartBtn").addEventListener("click", () => {
+  // Hide all screens
+  quizContainer.innerHTML = "";
+  resultDiv.style.display = "none";
+  document.getElementById('resultText').innerHTML = "";
+  document.getElementById('raceSelectScreen').classList.add('hidden');
 
-// ----- CLASS WHEEL -----
-function spinClassWheel(raceKey) {
+  // Reset start screen
+  startScreen.style.display = "block";
+
+  // Reset quiz state
+  quizData = [];
+  userAnswers = [];
+  current = 0;
+  firstQuestionPrevChoice = null;
+  firstQuestionJokeShown = 0;
+
+  // Reset class roll UI
+  wheelText.textContent = "";
+  wheelText.style.display = "none";
+  raceLabel.textContent = "";
+  raceLabel.style.display = "none";
+  rollBtn.textContent = "Roll Your Class";
+  rollBtn.disabled = false;
+
+  // Remove any previous click handlers
+  rollBtn.onclick = null;
+
+  // Reset any "last used" race key so rolling starts fresh
+  window.currentRaceKey = null; // optional global if you store it elsewhere
+});
+
+function spinClassWheel(raceKey, onFinish) {
   const classes = raceClasses[raceKey];
   let i = 0;
   let interval = 50;
@@ -270,7 +342,10 @@ function spinClassWheel(raceKey) {
   const maxSpins = 60;
 
   function spinStep() {
-    wheelText.textContent = classes[i % classes.length];
+    const currentClass = classes[i % classes.length];
+    // Just spinning text while spinning
+    wheelText.innerHTML = `<div style="font-size:36px; text-align:center;">${currentClass}</div>`;
+
     i++;
     spinCount++;
 
@@ -278,10 +353,22 @@ function spinClassWheel(raceKey) {
       interval += 5;
       setTimeout(spinStep, interval);
     } else {
+      // Final chosen class
       const chosenClass = classes[Math.floor(Math.random() * classes.length)];
-      wheelText.textContent = `Your class: ${chosenClass}`;
+      const imgSrc = classImages[chosenClass] || "";
+
+      // Text on top, image below
+      wheelText.innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:36px; font-weight:bold;">${chosenClass}</div>
+          <img src="${imgSrc}" alt="${chosenClass}" style="width:80px; height:80px; margin-top:10px;">
+        </div>
+      `;
+
+      if (typeof onFinish === "function") onFinish();
     }
   }
 
   spinStep();
 }
+

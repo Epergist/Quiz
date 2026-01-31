@@ -165,22 +165,38 @@ body {
 }
 
 #result {
-  display: none;
+  position: relative;
+  min-height: 600px; /* increase if needed for spacing */
   text-align: center;
-  margin-top: 30px;
 }
+
 
 #classWheel {
   font-size: 40px;
   font-weight: bold;
   margin-top: 20px;
-  color: #000;
+  color: #f58cca;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   display: none;
 }
 
-#rollClassBtn {
-  margin-top: 25px;
+#raceLabel {
+  color: #f58cca;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+#resultButtons {
+  position: absolute;
+  bottom: 0px;   /* increase this number to move buttons further down */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;      /* space between Roll + Back buttons */
+}
+
+
+#resultButtons button {
   width: 220px;
   height: 55px;
   background-color: #f7cde6;
@@ -193,4 +209,7 @@ body {
   transition: background 0.3s, transform 0.2s;
 }
 
-#rollClassBtn:hover { background-color: #f58cca; transform: translateY(-2px); }
+#resultButtons button:hover {
+  background-color: #f58cca;
+  transform: translateY(-2px);
+}

@@ -184,9 +184,9 @@ const quizData =
     type: "radio",
     options: [
       { text: "Stay calm and make a mental plan to improve next fight", points: 1 },
-      { text: "Its fine, numbers are hard anyways ", points: 3 },
-      { text: "Reflect quietly on your technique and timing ", points: 4 },
-      { text: "Start checking buffs, talents, gear, and combat logs", points: 2 }
+      { text: "Reflect quietly on your technique and timing", points: 3 }, 
+      { text: "Start checking buffs, talents, gear, and combat logs", points: 4 }, 
+      { text: "Its fine, numbers are hard anyways", points: 2 }
     ]
   },
       {
@@ -230,16 +230,6 @@ const quizData =
   ]
 },
 {
-  question: "You see someone wearing cool looking gear",
-  type: "radio",
-  options: [
-    { text: "Go see how much it costs on the auction house", points: 1 },
-    { text: "Inspect them immediately", points: 2 },
-    { text: "Just stand there in awe", points: 3 },
-    { text: "Might look cool but it’s not optimal DPS", points: 4 }
-  ]
-},
-{
   question: "How do you feel about escort quests?",
   type: "radio",
   options: [
@@ -279,6 +269,16 @@ const quizData =
       { text: "",image: "images/ALERTA.gif", points: 8 }
     ]
   },
+  {
+  question: "You see someone wearing cool looking gear",
+  type: "multiple",
+  options: [
+    { text: "Go see how much it costs on the auction house", points: 1 },
+    { text: "Inspect them immediately", points: 2 },
+    { text: "Just stand there in awe", points: 3 },
+    { text: "Might look cool but it’s not optimal DPS", points: 4 }
+  ]
+},
 
 {
   question: "A quest chain sends you back to the same zone yet again",
@@ -311,11 +311,11 @@ const quizData =
   ]
 },
 {
-  question: "You’re waiting on a late group member",
+  question: "Your group is waiting for a member who's late",
     type: "multiple",
   options: [
     { text: "Keep everyone together and ready", points: 1 },
-    { text: "Crack jokes and pass the time", points: 2 },
+    { text: "You're the one they are waiting for", points: 2 },
     { text: "Wander nearby, but stay close enough to jump in", points: 3 },
     { text: "Peggle", points: 4 }
   ]
@@ -353,7 +353,7 @@ options: shuffleArray(
     id: `${qIndex}-${oIndex}`,
     text: o.text,
     points: o.points,
-    image: o.image || null  // <-- uusi kenttä
+    image: o.image || null
   }))
 )
 
